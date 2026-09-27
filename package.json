@@ -2,7 +2,7 @@
   "name": "inline-beacon",
   "displayName": "Inline Beacon",
   "description": "在程式碼行尾直接顯示診斷訊息，並高亮與清除尾端空白；狀態列一眼看到錯誤、警告與尾端空白的數量。",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "workjerry",
   "license": "Apache-2.0",
   "repository": {
@@ -516,22 +516,150 @@
       }
     },
     "colors": [
-      { "id": "codeBeacon.errorBackground", "description": "%codeBeacon.color.errorBackground%", "defaults": { "dark": "#e454541b", "light": "#e4545420", "highContrast": "#e454541b" } },
-      { "id": "codeBeacon.errorMessageBackground", "description": "%codeBeacon.color.errorMessageBackground%", "defaults": { "dark": "#e4545419", "light": "#e4545419", "highContrast": "#e4545419" } },
-      { "id": "codeBeacon.errorRangeBackground", "description": "%codeBeacon.color.errorRangeBackground%", "defaults": { "dark": "#e4545419", "light": "#e4545419", "highContrast": "#e4545419" } },
-      { "id": "codeBeacon.errorForeground", "description": "%codeBeacon.color.errorForeground%", "defaults": { "dark": "#ff6464", "light": "#e45454", "highContrast": "#ff6464" } },
-      { "id": "codeBeacon.warningBackground", "description": "%codeBeacon.color.warningBackground%", "defaults": { "dark": "#ff942f1b", "light": "#ff942f20", "highContrast": "#ff942f1b" } },
-      { "id": "codeBeacon.warningMessageBackground", "description": "%codeBeacon.color.warningMessageBackground%", "defaults": { "dark": "#ff942f19", "light": "#ff942f19", "highContrast": "#ff942f19" } },
-      { "id": "codeBeacon.warningRangeBackground", "description": "%codeBeacon.color.warningRangeBackground%", "defaults": { "dark": "#ff942f19", "light": "#ff942f19", "highContrast": "#ff942f19" } },
-      { "id": "codeBeacon.warningForeground", "description": "%codeBeacon.color.warningForeground%", "defaults": { "dark": "#fa973a", "light": "#ff942f", "highContrast": "#fa973a" } },
-      { "id": "codeBeacon.infoBackground", "description": "%codeBeacon.color.infoBackground%", "defaults": { "dark": "#00b7e420", "light": "#00b7e420", "highContrast": "#00b7e420" } },
-      { "id": "codeBeacon.infoMessageBackground", "description": "%codeBeacon.color.infoMessageBackground%", "defaults": { "dark": "#00b7e419", "light": "#00b7e419", "highContrast": "#00b7e419" } },
-      { "id": "codeBeacon.infoRangeBackground", "description": "%codeBeacon.color.infoRangeBackground%", "defaults": { "dark": "#00b7e419", "light": "#00b7e419", "highContrast": "#00b7e419" } },
-      { "id": "codeBeacon.infoForeground", "description": "%codeBeacon.color.infoForeground%", "defaults": { "dark": "#00b7e4", "light": "#00b7e4", "highContrast": "#00b7e4" } },
-      { "id": "codeBeacon.hintBackground", "description": "%codeBeacon.color.hintBackground%", "defaults": { "dark": "#17a2a220", "light": "#17a2a220", "highContrast": "#17a2a220" } },
-      { "id": "codeBeacon.hintMessageBackground", "description": "%codeBeacon.color.hintMessageBackground%", "defaults": { "dark": "#17a2a219", "light": "#17a2a219", "highContrast": "#17a2a219" } },
-      { "id": "codeBeacon.hintRangeBackground", "description": "%codeBeacon.color.hintRangeBackground%", "defaults": { "dark": "#17a2a219", "light": "#17a2a219", "highContrast": "#17a2a219" } },
-      { "id": "codeBeacon.hintForeground", "description": "%codeBeacon.color.hintForeground%", "defaults": { "dark": "#2faf64", "light": "#2faf64", "highContrast": "#2faf64" } }
+      {
+        "id": "codeBeacon.errorBackground",
+        "description": "%codeBeacon.color.errorBackground%",
+        "defaults": {
+          "dark": "#e454541b",
+          "light": "#e4545420",
+          "highContrast": "#e454541b"
+        }
+      },
+      {
+        "id": "codeBeacon.errorMessageBackground",
+        "description": "%codeBeacon.color.errorMessageBackground%",
+        "defaults": {
+          "dark": "#e4545419",
+          "light": "#e4545419",
+          "highContrast": "#e4545419"
+        }
+      },
+      {
+        "id": "codeBeacon.errorRangeBackground",
+        "description": "%codeBeacon.color.errorRangeBackground%",
+        "defaults": {
+          "dark": "#e4545419",
+          "light": "#e4545419",
+          "highContrast": "#e4545419"
+        }
+      },
+      {
+        "id": "codeBeacon.errorForeground",
+        "description": "%codeBeacon.color.errorForeground%",
+        "defaults": {
+          "dark": "#ff6464",
+          "light": "#e45454",
+          "highContrast": "#ff6464"
+        }
+      },
+      {
+        "id": "codeBeacon.warningBackground",
+        "description": "%codeBeacon.color.warningBackground%",
+        "defaults": {
+          "dark": "#ff942f1b",
+          "light": "#ff942f20",
+          "highContrast": "#ff942f1b"
+        }
+      },
+      {
+        "id": "codeBeacon.warningMessageBackground",
+        "description": "%codeBeacon.color.warningMessageBackground%",
+        "defaults": {
+          "dark": "#ff942f19",
+          "light": "#ff942f19",
+          "highContrast": "#ff942f19"
+        }
+      },
+      {
+        "id": "codeBeacon.warningRangeBackground",
+        "description": "%codeBeacon.color.warningRangeBackground%",
+        "defaults": {
+          "dark": "#ff942f19",
+          "light": "#ff942f19",
+          "highContrast": "#ff942f19"
+        }
+      },
+      {
+        "id": "codeBeacon.warningForeground",
+        "description": "%codeBeacon.color.warningForeground%",
+        "defaults": {
+          "dark": "#fa973a",
+          "light": "#ff942f",
+          "highContrast": "#fa973a"
+        }
+      },
+      {
+        "id": "codeBeacon.infoBackground",
+        "description": "%codeBeacon.color.infoBackground%",
+        "defaults": {
+          "dark": "#00b7e420",
+          "light": "#00b7e420",
+          "highContrast": "#00b7e420"
+        }
+      },
+      {
+        "id": "codeBeacon.infoMessageBackground",
+        "description": "%codeBeacon.color.infoMessageBackground%",
+        "defaults": {
+          "dark": "#00b7e419",
+          "light": "#00b7e419",
+          "highContrast": "#00b7e419"
+        }
+      },
+      {
+        "id": "codeBeacon.infoRangeBackground",
+        "description": "%codeBeacon.color.infoRangeBackground%",
+        "defaults": {
+          "dark": "#00b7e419",
+          "light": "#00b7e419",
+          "highContrast": "#00b7e419"
+        }
+      },
+      {
+        "id": "codeBeacon.infoForeground",
+        "description": "%codeBeacon.color.infoForeground%",
+        "defaults": {
+          "dark": "#00b7e4",
+          "light": "#00b7e4",
+          "highContrast": "#00b7e4"
+        }
+      },
+      {
+        "id": "codeBeacon.hintBackground",
+        "description": "%codeBeacon.color.hintBackground%",
+        "defaults": {
+          "dark": "#17a2a220",
+          "light": "#17a2a220",
+          "highContrast": "#17a2a220"
+        }
+      },
+      {
+        "id": "codeBeacon.hintMessageBackground",
+        "description": "%codeBeacon.color.hintMessageBackground%",
+        "defaults": {
+          "dark": "#17a2a219",
+          "light": "#17a2a219",
+          "highContrast": "#17a2a219"
+        }
+      },
+      {
+        "id": "codeBeacon.hintRangeBackground",
+        "description": "%codeBeacon.color.hintRangeBackground%",
+        "defaults": {
+          "dark": "#17a2a219",
+          "light": "#17a2a219",
+          "highContrast": "#17a2a219"
+        }
+      },
+      {
+        "id": "codeBeacon.hintForeground",
+        "description": "%codeBeacon.color.hintForeground%",
+        "defaults": {
+          "dark": "#2faf64",
+          "light": "#2faf64",
+          "highContrast": "#2faf64"
+        }
+      }
     ]
   },
   "scripts": {
