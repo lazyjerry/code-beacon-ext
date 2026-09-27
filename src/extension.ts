@@ -37,7 +37,7 @@ function effectiveConfig(): CodeBeaconConfig {
 }
 
 export function activate(context: vscode.ExtensionContext): CodeBeaconApi {
-  const log = vscode.window.createOutputChannel('Beacooon', { log: true });
+  const log = vscode.window.createOutputChannel('Inline Beacon', { log: true });
   let config = effectiveConfig();
   const tracker = new ModifiedLinesTracker();
   const diagnostics = new DiagnosticsDecorator(config, log);

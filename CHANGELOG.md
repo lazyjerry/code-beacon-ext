@@ -1,6 +1,6 @@
 # Changelog
 
-本檔案記錄 Beacooon 的版本變更，格式依循 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號依循 [Semantic Versioning](https://semver.org/lang/zh-TW/)。
+本檔案記錄 Inline Beacon 的版本變更，格式依循 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)，版本號依循 [Semantic Versioning](https://semver.org/lang/zh-TW/)。
 
 ## [Unreleased]
 

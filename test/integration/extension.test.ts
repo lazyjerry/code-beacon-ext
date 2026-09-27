@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 
 import type { CodeBeaconApi } from '../../src/extension';
 
-const EXTENSION_ID = 'workjerry.code-beacon';
+const EXTENSION_ID = 'workjerry.inline-beacon';
 const SECTION = 'codeBeacon';
 const TOUCHED_KEYS = ['excludeBySource', 'followCursor', 'excludeSchemes', 'trailingSpacesEnabled', 'trailingSpacesHighlightOnly'];
 
@@ -34,7 +34,7 @@ function problem(line: number, message: string, severity: vscode.DiagnosticSever
   return diagnostic;
 }
 
-suite('Beacooon 延伸模組', () => {
+suite('Inline Beacon 延伸模組', () => {
   let api: CodeBeaconApi;
   let collection: vscode.DiagnosticCollection;
   let workspaceDir: string;
@@ -44,7 +44,7 @@ suite('Beacooon 延伸模組', () => {
     assert.ok(folders && folders.length > 0, '測試需要一個工作區資料夾');
     workspaceDir = folders[0].uri.fsPath;
     api = await getApi();
-    collection = vscode.languages.createDiagnosticCollection('beacooon-test');
+    collection = vscode.languages.createDiagnosticCollection('inline-beacon-test');
   });
 
   suiteTeardown(() => {

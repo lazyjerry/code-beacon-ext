@@ -25,7 +25,7 @@ export class StatusBar implements vscode.Disposable {
     }
     const alignment = config.statusBarAlignment === 'right' ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
     const item = vscode.window.createStatusBarItem('codeBeacon.status', alignment, config.statusBarPriority);
-    item.name = 'Beacooon';
+    item.name = 'Inline Beacon';
     item.command = 'workbench.actions.view.problems';
     item.show();
     this.item = item;

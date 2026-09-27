@@ -1,6 +1,6 @@
 {
-  "name": "code-beacon",
-  "displayName": "Beacooon",
+  "name": "inline-beacon",
+  "displayName": "Inline Beacon",
   "description": "在程式碼行尾直接顯示診斷訊息，並高亮與清除尾端空白；狀態列一眼看到錯誤、警告與尾端空白的數量。",
   "version": "0.1.0",
   "publisher": "workjerry",
@@ -50,31 +50,31 @@
       {
         "command": "codeBeacon.toggle",
         "title": "%codeBeacon.command.toggle%",
-        "category": "Beacooon"
+        "category": "Inline Beacon"
       },
       {
         "command": "codeBeacon.searchForProblem",
         "title": "%codeBeacon.command.searchForProblem%",
-        "category": "Beacooon"
+        "category": "Inline Beacon"
       },
       {
         "command": "codeBeacon.copyProblemMessage",
         "title": "%codeBeacon.command.copyProblemMessage%",
-        "category": "Beacooon"
+        "category": "Inline Beacon"
       },
       {
         "command": "codeBeacon.trimTrailingSpaces",
         "title": "%codeBeacon.command.trimTrailingSpaces%",
-        "category": "Beacooon"
+        "category": "Inline Beacon"
       },
       {
         "command": "codeBeacon.trimTrailingSpacesAll",
         "title": "%codeBeacon.command.trimTrailingSpacesAll%",
-        "category": "Beacooon"
+        "category": "Inline Beacon"
       }
     ],
     "configuration": {
-      "title": "Beacooon",
+      "title": "Inline Beacon",
       "properties": {
         "codeBeacon.enabled": {
           "type": "boolean",
