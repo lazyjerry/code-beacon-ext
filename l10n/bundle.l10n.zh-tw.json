@@ -1,0 +1,21 @@
+{
+  "Everything": "全部",
+  "Diagnostics": "診斷",
+  "Trailing spaces": "尾端空白",
+  "Errors": "錯誤",
+  "Warnings": "警告",
+  "Info": "資訊",
+  "Hints": "提示",
+  "On": "開啟",
+  "Off": "關閉",
+  "Choose what to toggle": "選擇要切換的項目",
+  "No active editor": "沒有作用中的編輯器",
+  "No problem on the current line": "游標所在行沒有問題",
+  "The search URL must start with http:// or https://": "搜尋網址必須以 http:// 或 https:// 開頭",
+  "Copied the problem message": "已複製問題訊息",
+  "Removed trailing spaces on {0} line(s)": "已清除 {0} 行的尾端空白",
+  "No trailing spaces to remove": "沒有可清除的尾端空白",
+  "Errors: {0}, warnings: {1}, info: {2}, hints: {3}": "錯誤 {0}、警告 {1}、資訊 {2}、提示 {3}",
+  "Lines with trailing spaces: {0}": "含尾端空白的行數：{0}",
+  "Click to open the Problems view": "點擊開啟「問題」面板"
+}

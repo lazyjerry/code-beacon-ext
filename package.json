@@ -1,0 +1,565 @@
+{
+  "name": "code-beacon",
+  "displayName": "Beacooon",
+  "description": "在程式碼行尾直接顯示診斷訊息，並高亮與清除尾端空白；狀態列一眼看到錯誤、警告與尾端空白的數量。",
+  "version": "0.1.0",
+  "publisher": "workjerry",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lazyjerry/code-beacon-ext.git"
+  },
+  "homepage": "https://github.com/lazyjerry/code-beacon-ext#readme",
+  "bugs": {
+    "url": "https://github.com/lazyjerry/code-beacon-ext/issues"
+  },
+  "keywords": [
+    "diagnostics",
+    "inline",
+    "problems",
+    "trailing spaces",
+    "whitespace",
+    "status bar"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "%codeBeacon.untrustedWorkspaces.description%",
+      "restrictedConfigurations": [
+        "codeBeacon.searchForProblemQuery",
+        "codeBeacon.trailingSpacesRegexp",
+        "codeBeacon.excludeByMessage"
+      ]
+    }
+  },
+  "icon": "resources/icon.png",
+  "main": "./out/extension.js",
+  "l10n": "./l10n",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeBeacon.toggle",
+        "title": "%codeBeacon.command.toggle%",
+        "category": "Beacooon"
+      },
+      {
+        "command": "codeBeacon.searchForProblem",
+        "title": "%codeBeacon.command.searchForProblem%",
+        "category": "Beacooon"
+      },
+      {
+        "command": "codeBeacon.copyProblemMessage",
+        "title": "%codeBeacon.command.copyProblemMessage%",
+        "category": "Beacooon"
+      },
+      {
+        "command": "codeBeacon.trimTrailingSpaces",
+        "title": "%codeBeacon.command.trimTrailingSpaces%",
+        "category": "Beacooon"
+      },
+      {
+        "command": "codeBeacon.trimTrailingSpacesAll",
+        "title": "%codeBeacon.command.trimTrailingSpacesAll%",
+        "category": "Beacooon"
+      }
+    ],
+    "configuration": {
+      "title": "Beacooon",
+      "properties": {
+        "codeBeacon.enabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 1,
+          "description": "%codeBeacon.enabled.description%"
+        },
+        "codeBeacon.diagnosticsEnabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 2,
+          "description": "%codeBeacon.diagnosticsEnabled.description%"
+        },
+        "codeBeacon.trailingSpacesEnabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 3,
+          "description": "%codeBeacon.trailingSpacesEnabled.description%"
+        },
+        "codeBeacon.excludePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "order": 4,
+          "markdownDescription": "%codeBeacon.excludePatterns.description%"
+        },
+        "codeBeacon.excludeLanguages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "order": 5,
+          "markdownDescription": "%codeBeacon.excludeLanguages.description%"
+        },
+        "codeBeacon.excludeSchemes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "output"
+          ],
+          "order": 6,
+          "markdownDescription": "%codeBeacon.excludeSchemes.description%"
+        },
+        "codeBeacon.delay": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 500,
+          "order": 7,
+          "description": "%codeBeacon.delay.description%"
+        },
+        "codeBeacon.statusBarEnabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 8,
+          "description": "%codeBeacon.statusBarEnabled.description%"
+        },
+        "codeBeacon.statusBarAlignment": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "enumDescriptions": [
+            "%codeBeacon.statusBarAlignment.left%",
+            "%codeBeacon.statusBarAlignment.right%"
+          ],
+          "default": "left",
+          "order": 9,
+          "description": "%codeBeacon.statusBarAlignment.description%"
+        },
+        "codeBeacon.statusBarPriority": {
+          "type": "integer",
+          "default": -9000,
+          "order": 10,
+          "description": "%codeBeacon.statusBarPriority.description%"
+        },
+        "codeBeacon.statusBarScope": {
+          "type": "string",
+          "enum": [
+            "all",
+            "activeEditor"
+          ],
+          "enumDescriptions": [
+            "%codeBeacon.statusBarScope.all%",
+            "%codeBeacon.statusBarScope.activeEditor%"
+          ],
+          "default": "activeEditor",
+          "order": 11,
+          "description": "%codeBeacon.statusBarScope.description%"
+        },
+        "codeBeacon.diagnosticLevels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "error",
+              "warning",
+              "info",
+              "hint"
+            ]
+          },
+          "uniqueItems": true,
+          "default": [
+            "error",
+            "warning",
+            "info"
+          ],
+          "order": 20,
+          "description": "%codeBeacon.diagnosticLevels.description%"
+        },
+        "codeBeacon.followCursor": {
+          "type": "string",
+          "enum": [
+            "allLines",
+            "allLinesExceptActive",
+            "activeLine",
+            "closestProblem"
+          ],
+          "enumDescriptions": [
+            "%codeBeacon.followCursor.allLines%",
+            "%codeBeacon.followCursor.allLinesExceptActive%",
+            "%codeBeacon.followCursor.activeLine%",
+            "%codeBeacon.followCursor.closestProblem%"
+          ],
+          "default": "allLines",
+          "order": 21,
+          "description": "%codeBeacon.followCursor.description%"
+        },
+        "codeBeacon.messageTemplate": {
+          "type": "string",
+          "default": "$severity $message",
+          "order": 22,
+          "markdownDescription": "%codeBeacon.messageTemplate.description%"
+        },
+        "codeBeacon.messageMaxChars": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 500,
+          "order": 23,
+          "description": "%codeBeacon.messageMaxChars.description%"
+        },
+        "codeBeacon.maxInlineMessages": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000,
+          "order": 24,
+          "description": "%codeBeacon.maxInlineMessages.description%"
+        },
+        "codeBeacon.messageBackgroundMode": {
+          "type": "string",
+          "enum": [
+            "line",
+            "message",
+            "none"
+          ],
+          "enumDescriptions": [
+            "%codeBeacon.messageBackgroundMode.line%",
+            "%codeBeacon.messageBackgroundMode.message%",
+            "%codeBeacon.messageBackgroundMode.none%"
+          ],
+          "default": "line",
+          "order": 25,
+          "description": "%codeBeacon.messageBackgroundMode.description%"
+        },
+        "codeBeacon.severityText": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "default": [
+            "✖",
+            "▲",
+            "●",
+            "◇"
+          ],
+          "order": 26,
+          "markdownDescription": "%codeBeacon.severityText.description%"
+        },
+        "codeBeacon.margin": {
+          "type": "string",
+          "default": "4ch",
+          "order": 27,
+          "description": "%codeBeacon.margin.description%"
+        },
+        "codeBeacon.fontSize": {
+          "type": "string",
+          "default": "",
+          "order": 28,
+          "description": "%codeBeacon.fontSize.description%"
+        },
+        "codeBeacon.fontWeight": {
+          "type": "string",
+          "enum": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900",
+            "normal",
+            "bold"
+          ],
+          "default": "normal",
+          "order": 29,
+          "description": "%codeBeacon.fontWeight.description%"
+        },
+        "codeBeacon.fontStyleItalic": {
+          "type": "boolean",
+          "default": false,
+          "order": 30,
+          "description": "%codeBeacon.fontStyleItalic.description%"
+        },
+        "codeBeacon.problemRangeDecorationEnabled": {
+          "type": "boolean",
+          "default": false,
+          "order": 31,
+          "description": "%codeBeacon.problemRangeDecorationEnabled.description%"
+        },
+        "codeBeacon.excludeByMessage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "order": 32,
+          "markdownDescription": "%codeBeacon.excludeByMessage.description%"
+        },
+        "codeBeacon.excludeBySource": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "order": 33,
+          "markdownDescription": "%codeBeacon.excludeBySource.description%"
+        },
+        "codeBeacon.searchForProblemQuery": {
+          "type": "string",
+          "scope": "application",
+          "default": "https://duckduckgo.com/?q=$message",
+          "order": 34,
+          "markdownDescription": "%codeBeacon.searchForProblemQuery.description%"
+        },
+        "codeBeacon.alignMessage": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "minimumMargin": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "padding": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "useFixedPosition": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "start": 0,
+            "end": 0,
+            "minimumMargin": 4,
+            "padding": [
+              0,
+              0
+            ],
+            "useFixedPosition": true
+          },
+          "order": 35,
+          "markdownDescription": "%codeBeacon.alignMessage.description%"
+        },
+        "codeBeacon.gutterIconsEnabled": {
+          "type": "boolean",
+          "default": false,
+          "order": 36,
+          "description": "%codeBeacon.gutterIconsEnabled.description%"
+        },
+        "codeBeacon.gutterIconSet": {
+          "type": "string",
+          "enum": [
+            "default",
+            "circle",
+            "letter",
+            "emoji"
+          ],
+          "enumDescriptions": [
+            "%codeBeacon.gutterIconSet.default%",
+            "%codeBeacon.gutterIconSet.circle%",
+            "%codeBeacon.gutterIconSet.letter%",
+            "%codeBeacon.gutterIconSet.emoji%"
+          ],
+          "default": "default",
+          "order": 37,
+          "description": "%codeBeacon.gutterIconSet.description%"
+        },
+        "codeBeacon.gutterEmoji": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "warning": {
+              "type": "string"
+            },
+            "info": {
+              "type": "string"
+            },
+            "hint": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "error": "🔴",
+            "warning": "🟠",
+            "info": "🔵",
+            "hint": "🟢"
+          },
+          "order": 38,
+          "description": "%codeBeacon.gutterEmoji.description%"
+        },
+        "codeBeacon.gutterIconColors": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "format": "color"
+            },
+            "warning": {
+              "type": "string",
+              "format": "color"
+            },
+            "info": {
+              "type": "string",
+              "format": "color"
+            },
+            "hint": {
+              "type": "string",
+              "format": "color"
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "error": "#e45454",
+            "warning": "#ff942f",
+            "info": "#00b7e4",
+            "hint": "#2faf64"
+          },
+          "order": 39,
+          "description": "%codeBeacon.gutterIconColors.description%"
+        },
+        "codeBeacon.onSave": {
+          "type": "boolean",
+          "default": false,
+          "order": 40,
+          "description": "%codeBeacon.onSave.description%"
+        },
+        "codeBeacon.onSaveTimeout": {
+          "type": "integer",
+          "minimum": 50,
+          "default": 500,
+          "order": 41,
+          "description": "%codeBeacon.onSaveTimeout.description%"
+        },
+        "codeBeacon.trailingSpacesRegexp": {
+          "type": "string",
+          "default": "[ \\t]+",
+          "order": 50,
+          "markdownDescription": "%codeBeacon.trailingSpacesRegexp.description%"
+        },
+        "codeBeacon.trailingSpacesHighlightCurrentLine": {
+          "type": "boolean",
+          "default": true,
+          "order": 51,
+          "description": "%codeBeacon.trailingSpacesHighlightCurrentLine.description%"
+        },
+        "codeBeacon.trimIncludeEmptyLines": {
+          "type": "boolean",
+          "default": true,
+          "order": 52,
+          "description": "%codeBeacon.trimIncludeEmptyLines.description%"
+        },
+        "codeBeacon.trimModifiedLinesOnly": {
+          "type": "boolean",
+          "default": true,
+          "order": 53,
+          "markdownDescription": "%codeBeacon.trimModifiedLinesOnly.description%"
+        },
+        "codeBeacon.trailingSpacesHighlightOnly": {
+          "type": "boolean",
+          "default": true,
+          "order": 54,
+          "markdownDescription": "%codeBeacon.trailingSpacesHighlightOnly.description%"
+        },
+        "codeBeacon.trimStatusBarMessage": {
+          "type": "boolean",
+          "default": true,
+          "order": 55,
+          "description": "%codeBeacon.trimStatusBarMessage.description%"
+        },
+        "codeBeacon.trailingSpacesBackgroundColor": {
+          "type": "string",
+          "format": "color",
+          "default": "#cca7004d",
+          "order": 56,
+          "description": "%codeBeacon.trailingSpacesBackgroundColor.description%"
+        },
+        "codeBeacon.trailingSpacesBorderColor": {
+          "type": "string",
+          "format": "color",
+          "default": "#cca70026",
+          "order": 57,
+          "description": "%codeBeacon.trailingSpacesBorderColor.description%"
+        }
+      }
+    },
+    "colors": [
+      { "id": "codeBeacon.errorBackground", "description": "%codeBeacon.color.errorBackground%", "defaults": { "dark": "#e454541b", "light": "#e4545420", "highContrast": "#e454541b" } },
+      { "id": "codeBeacon.errorMessageBackground", "description": "%codeBeacon.color.errorMessageBackground%", "defaults": { "dark": "#e4545419", "light": "#e4545419", "highContrast": "#e4545419" } },
+      { "id": "codeBeacon.errorRangeBackground", "description": "%codeBeacon.color.errorRangeBackground%", "defaults": { "dark": "#e4545419", "light": "#e4545419", "highContrast": "#e4545419" } },
+      { "id": "codeBeacon.errorForeground", "description": "%codeBeacon.color.errorForeground%", "defaults": { "dark": "#ff6464", "light": "#e45454", "highContrast": "#ff6464" } },
+      { "id": "codeBeacon.warningBackground", "description": "%codeBeacon.color.warningBackground%", "defaults": { "dark": "#ff942f1b", "light": "#ff942f20", "highContrast": "#ff942f1b" } },
+      { "id": "codeBeacon.warningMessageBackground", "description": "%codeBeacon.color.warningMessageBackground%", "defaults": { "dark": "#ff942f19", "light": "#ff942f19", "highContrast": "#ff942f19" } },
+      { "id": "codeBeacon.warningRangeBackground", "description": "%codeBeacon.color.warningRangeBackground%", "defaults": { "dark": "#ff942f19", "light": "#ff942f19", "highContrast": "#ff942f19" } },
+      { "id": "codeBeacon.warningForeground", "description": "%codeBeacon.color.warningForeground%", "defaults": { "dark": "#fa973a", "light": "#ff942f", "highContrast": "#fa973a" } },
+      { "id": "codeBeacon.infoBackground", "description": "%codeBeacon.color.infoBackground%", "defaults": { "dark": "#00b7e420", "light": "#00b7e420", "highContrast": "#00b7e420" } },
+      { "id": "codeBeacon.infoMessageBackground", "description": "%codeBeacon.color.infoMessageBackground%", "defaults": { "dark": "#00b7e419", "light": "#00b7e419", "highContrast": "#00b7e419" } },
+      { "id": "codeBeacon.infoRangeBackground", "description": "%codeBeacon.color.infoRangeBackground%", "defaults": { "dark": "#00b7e419", "light": "#00b7e419", "highContrast": "#00b7e419" } },
+      { "id": "codeBeacon.infoForeground", "description": "%codeBeacon.color.infoForeground%", "defaults": { "dark": "#00b7e4", "light": "#00b7e4", "highContrast": "#00b7e4" } },
+      { "id": "codeBeacon.hintBackground", "description": "%codeBeacon.color.hintBackground%", "defaults": { "dark": "#17a2a220", "light": "#17a2a220", "highContrast": "#17a2a220" } },
+      { "id": "codeBeacon.hintMessageBackground", "description": "%codeBeacon.color.hintMessageBackground%", "defaults": { "dark": "#17a2a219", "light": "#17a2a219", "highContrast": "#17a2a219" } },
+      { "id": "codeBeacon.hintRangeBackground", "description": "%codeBeacon.color.hintRangeBackground%", "defaults": { "dark": "#17a2a219", "light": "#17a2a219", "highContrast": "#17a2a219" } },
+      { "id": "codeBeacon.hintForeground", "description": "%codeBeacon.color.hintForeground%", "defaults": { "dark": "#2faf64", "light": "#2faf64", "highContrast": "#2faf64" } }
+    ]
+  },
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "build:extension": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=out/extension.js --sourcemap",
+    "build:tests": "tsc -p .",
+    "build": "npm run typecheck && npm run build:extension",
+    "vscode:prepublish": "npm run build",
+    "lint": "eslint .",
+    "test:unit": "npm run build:tests && mocha --ui tdd --timeout 10000 \"out/test/unit/**/*.test.js\"",
+    "test:integration": "node ./out/test/runTest.js",
+    "test": "npm run build && npm run test:unit && npm run test:integration",
+    "check": "npm run lint && npm run test",
+    "package:vsix": "npm run check && vsce package --no-dependencies",
+    "release": "./scripts/publish.sh"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.0.0",
+    "glob": "^11.0.0",
+    "mocha": "^11.0.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

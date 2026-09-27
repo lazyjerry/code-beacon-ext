@@ -1,0 +1,21 @@
+{
+  "Everything": "Everything",
+  "Diagnostics": "Diagnostics",
+  "Trailing spaces": "Trailing spaces",
+  "Errors": "Errors",
+  "Warnings": "Warnings",
+  "Info": "Info",
+  "Hints": "Hints",
+  "On": "On",
+  "Off": "Off",
+  "Choose what to toggle": "Choose what to toggle",
+  "No active editor": "No active editor",
+  "No problem on the current line": "No problem on the current line",
+  "The search URL must start with http:// or https://": "The search URL must start with http:// or https://",
+  "Copied the problem message": "Copied the problem message",
+  "Removed trailing spaces on {0} line(s)": "Removed trailing spaces on {0} line(s)",
+  "No trailing spaces to remove": "No trailing spaces to remove",
+  "Errors: {0}, warnings: {1}, info: {2}, hints: {3}": "Errors: {0}, warnings: {1}, info: {2}, hints: {3}",
+  "Lines with trailing spaces: {0}": "Lines with trailing spaces: {0}",
+  "Click to open the Problems view": "Click to open the Problems view"
+}
